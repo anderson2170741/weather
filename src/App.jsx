@@ -10,10 +10,9 @@ function App() {
   const [weather, setWeather] = useState({});
   const [isCelsius, setIsCelsius] = useState(true);
 
-  const celsius = weather.main?.temp - 273.15;
-  let fahrenheit = (1.8 * celsius);
-
-  fahrenheit = Math.trunc(fahrenheit) + 32;
+  let fahrenheit = (weather.main?.temp - 273.15) * 9/5 +32;
+  let fahrenheitTempMax = (weather.main?.temp_max - 273.15) * 9/5 +32;
+  let fahrenheitTempMin = (weather.main?.temp_min - 273.15) * 9/5 +32;
 
   useEffect(() => {
 
@@ -38,6 +37,7 @@ function App() {
       <div className='card'>
         <h1>Weather App</h1>
         <i class="fa-solid fa-location-dot" style={{ color: '#C9202F', fontSize: 30 }}></i>
+        <h2>{weather.sys?.country}</h2>
         <h2>{weather.name}</h2>
         <div className='cardColumns'>
           <div className='cardColumn-1'>
@@ -47,7 +47,7 @@ function App() {
             <div className='temp'>
               {/*  ºC = ºK-273.15*/}
               <p style={{ textAlign: 'center', fontWeight: 800 }}>
-                {isCelsius ? Math.trunc(weather.main?.temp - 273.15) : fahrenheit} {""}
+                {isCelsius ? Math.ceil(weather.main?.temp - 273.15) : Math.ceil(fahrenheit)} {""}
                 {isCelsius ? " ºC" : " ºF"}
               </p>
               <p style={{ textTransform: 'capitalize', textAlign: 'center' }}>"{weather.weather?.[0].description}"</p>
@@ -89,7 +89,8 @@ function App() {
                   <p>
                     <i class="fa-solid fa-temperature-arrow-up" style={{ color: '#0D47A1' }}></i>
                     <samp>Temp_max: </samp>
-                    {isCelsius ? Math.trunc(weather.main?.temp_max - 273.15) : fahrenheit} {""}
+                    {/*  ºC = ºK-273.15*/}
+                    {isCelsius ? Math.ceil(weather.main?.temp_max - 273.15) : Math.ceil(fahrenheitTempMax)} {""}
                     {isCelsius ? " ºC" : " ºF"}
                   </p>
                 </div>
@@ -97,7 +98,8 @@ function App() {
                   <p>
                     <i class="fa-solid fa-temperature-arrow-down" style={{ color: '#0D47A1' }}></i>
                     <samp>Temp_min: </samp>
-                    {isCelsius ? Math.trunc(weather.main?.temp_min - 273.15) : fahrenheit} {""}
+                    {/*  ºC = ºK-273.15*/}
+                    {isCelsius ? Math.ceil(weather.main?.temp_min - 273.15) : Math.ceil(fahrenheitTempMin)} {""}
                     {isCelsius ? " ºC" : " ºF"}
                   </p>
                 </div>
